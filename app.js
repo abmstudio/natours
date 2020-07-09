@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const compression = require('compression');
 // 188. Logging in Users with Our API - Part 1
 const cookieParser = require('cookie-parser');
 
@@ -21,7 +22,7 @@ const bookingRouter = require('./routes/bookingRoutes');
 // 180. Setting up the Project Structure
 const viewRouter = require('./routes/viewRoutes');
 
-// Start express app
+// Start express applications
 const app = express();
 
 // 175. Setting Up Pug in Express
@@ -76,12 +77,11 @@ app.use(
     })
 );
 
+app.use(compression());
+
 // Test middleware function
 app.use((req, res, next) => {
-    // dodaje właściwośc requestTime do obiektu req
     req.requestTime = new Date().toISOString();
-    // console.log(req.cookies);
-
     next();
 });
 

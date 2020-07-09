@@ -30,7 +30,7 @@ const deleteUserPhoto = async (path, photo) => {
     const file = `${__dirname}/../${path}/${photo}`;
 
     await fs.unlink(file, err => {
-        if (err) return console.log(err);
+        if (err) return;
 
         console.log(`File ${path}/${photo} has been deleted from the server.`);
     });
