@@ -21,13 +21,14 @@ const bookingRouter = require('./routes/bookingRoutes');
 // 180. Setting up the Project Structure
 const viewRouter = require('./routes/viewRoutes');
 
+// Start express app
 const app = express();
 
 // 175. Setting Up Pug in Express
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
-// 1) GLOBAL MIDDLEWARES
+// 1) GLOBAL MIDDLEWARE
 // Serving static files from public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
