@@ -1,0 +1,29 @@
+extends base
+
+block content
+    main.main
+        .login-form
+            h2.heading-secondary.ma-bt-lg Create your account
+            form#signUpForm.form
+                .form__group
+                    label.form__label(for='email') Email address
+                    input#email.form__input(type='email', placeholder='you@example.com', required)
+                .form__group.ma-bt-md
+                    label.form__label(for='password') Password
+                    input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                .form__group.ma-bt-md
+                    label.form__label(for='passwordConfirm') Confirm password
+                    input#passwordConfirm.form__input(type='password', placeholder='••••••••', required, minlength='8')                    
+                .form__group.ma-bt-md
+                    label.form__label(for='firstname') First name (optional)
+                    input#firstname.form__input(type='text', placeholder='John')
+                .form__group.ma-bt-md
+                    label.form__label(for='lastname') Last name (optional)
+                    input#lastname.form__input(type='text', placeholder='Smith')
+                .form__group.ma-bt-md
+                    label.form__label(for='legal-agreement') I agree to the <a href="/legal/tos">Terms od Sevice</a> and <a href="/legal/privacy">Privacy Policy</a>
+                    input#legal-agreement.form__input(type='checkbox', value=`${Date.now()}` required)                                     
+                .form__group
+                    button.btn.btn--white Sign Up
+
+       

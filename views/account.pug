@@ -1,0 +1,74 @@
+extends base
+
+mixin navItem(link, text, icon, active)
+	li(class=`${active ? 'side-nav--active' : ''}`)
+		a(href=`${link}`)
+			svg
+				use(xlink:href=`img/icons.svg#icon-${icon}`)
+			| #{text}
+
+block content
+	main.main
+		.user-view
+			nav.user-view__menu
+				ul.side-nav
+					-
+						const userItems = [
+							{link: '#', text: 'Settings', icon: 'settings', active: true},
+							{link: '/my-tours', text: 'My bookings', icon: 'briefcase', active: false},
+							{link: '#', text: 'My reviews', icon: 'star', active: false},
+							{link: '#', text: 'Billing', icon: 'credit-card', active: false}
+						];
+					each item in userItems
+						+navItem(item.link, item.text, item.icon, item.active)
+				//- Administrator menu
+				- if (user.role === 'admin')
+					.admin-nav
+						h5.admin-nav__heading Admin
+						ul.side-nav
+							- 
+								const adminItems = [
+									{link: '#', text: 'Manage tours', icon: 'map', active: false},
+									{link: '#', text: 'Manage users', icon: 'users', active: false},
+									{link: '#', text: 'Manage reviews', icon: 'star', active: false},
+									{link: '#', text: 'Manage booking', icon: 'briefcase', active: false}
+								];
+							each item in adminItems
+								+navItem(item.link, item.text, item.icon, item.active)
+			.user-view__content
+				.user-view__form-container
+					h2.heading-secondary.ma-bt-md Your account settings
+					//- WITHOUT API
+					//- form.form.form-user-data(action='/submit-user-data', method='POST' enctype='multipart/form-data')
+					
+					//- WITH API 195. Updating User Data with Our API
+					form.form.form-user-data
+						.form__group
+							label.form__label(for='name') Name
+							input#name.form__input(type='text', value=`${user.name}`, required, name='name')
+						.form__group.ma-bt-md
+							label.form__label(for='email') Email address
+							input#email.form__input(type='email', value=`${user.email}`, required, name='email')
+						.form__group.form__photo-upload
+							img.form__user-photo(src=`/img/users/${user.photo}`, alt='User photo')
+							input.form__upload(type='file', accept='image/*', id="photo", name="photo")
+							label(for='photo') Choose new photo
+						.form__group.right
+							button.btn.btn--small.btn--green.btn--submit Save settings
+
+				.line &nbsp;
+				
+				.user-view__form-container
+					h2.heading-secondary.ma-bt-md Password change
+					form.form.form-user-password
+						.form__group
+							label.form__label(for='password-current') Current password
+							input#password-current.form__input(type='password', placeholder='••••••••', required, minlength='8')
+						.form__group
+							label.form__label(for='password') New password
+							input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
+						.form__group.ma-bt-lg
+							label.form__label(for='password-confirm') Confirm password
+							input#password-confirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
+						.form__group.right
+							button.btn.btn--small.btn--green.btn--submit Save password

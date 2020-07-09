@@ -1,0 +1,7 @@
+.footer
+    .footer__logo
+        img(src='/img/logo-green.png' alt='Natours logo')
+    ul.footer__nav
+        each val in ['About us', 'Download apps', 'Become a guide', 'Careers', 'Contact']
+            li: a.footer__link(href='#')= val
+    p.footer__copyright &copy; by Jonas Schmedtmann. All rights reserved.

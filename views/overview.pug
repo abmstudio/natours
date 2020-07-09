@@ -1,0 +1,11 @@
+extends base
+
+include components/_tourCard
+
+block content
+    main.main
+        .card-container
+            each tour in tours
+                +tourCard(tour)
+                
+
