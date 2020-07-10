@@ -19,17 +19,19 @@ const signToken = id => {
 };
 
 // 137. Update The Current User: Password (refactoring)
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
     const token = signToken(user._id);
     // 141 Sending JWT via Cookie
     const cookieOptions = {
         expires: new Date(
             Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
         ),
-        httpOnly: true
+        httpOnly: true,
+        secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
     };
 
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+    // 223. Testing for Secure HTTPS Connections (refactor)
+    // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
     res.cookie('jwt', token, cookieOptions);
 
@@ -59,7 +61,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     await new Email(newUser, url).sendWelcome();
 
     // 137. Update The Current User: Password (refactoring)
-    createSendToken(newUser, 201, res);
+    createSendToken(newUser, 201, req, res);
 });
 
 // 129. Logging in Users
@@ -80,7 +82,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
     // 3) If everything ok send token to client
     // 137. Update The Current User: Password (refactoring)
-    createSendToken(user, 200, res);
+    createSendToken(user, 200, req, res);
 });
 
 // 130. Protecting Tour Routes Part 1
@@ -269,7 +271,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     // 3) Update changePasswordAt property for the user
     // 4) Log the user in send JWT
     // 137. Update The Current User: Password (refactoring)
-    createSendToken(user, 200, res);
+    createSendToken(user, 200, req, res);
 });
 
 // 137. Updating The Current User: Password
@@ -290,5 +292,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     await user.save();
 
     // 4) Log user in, send JWT
-    createSendToken(user, 200, res);
+    createSendToken(user, 200, req, res);
 });

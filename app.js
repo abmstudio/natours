@@ -25,6 +25,9 @@ const viewRouter = require('./routes/viewRoutes');
 // Start express applications
 const app = express();
 
+// 223. Testing for Secure HTTPS Connections (refactor)
+app.enable('trust proxy');
+
 // 175. Setting Up Pug in Express
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
